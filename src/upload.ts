@@ -93,7 +93,7 @@ export const upload = async (
                     }
                     catch (err) {
                         messageTransport.warn(`Error calling onSuccess function. Will proceed with other videos. Error: ${err}`);
-                    }                    
+                    }
                 }
 
                 uploadedYTLink.push(link)
@@ -102,7 +102,7 @@ export const upload = async (
                 messageTransport.error(`Error uploading video ${video.title} [${video.path}]: ${err}`);
                 throw err;
             }
-            
+
         }
 
         await browser.close()
@@ -220,7 +220,7 @@ async function uploadVideo(videoJSON: Video, messageTransport: MessageTransport)
     if (errorMessage) {
         await browser.close()
         throw new Error('Youtube returned an error : ' + errorMessage)
-    }    
+    }
 
     // Wait for upload to complete, but not checks
     const uploadCompletePromise = page
@@ -243,7 +243,7 @@ async function uploadVideo(videoJSON: Video, messageTransport: MessageTransport)
     if (!videoJSON.skipProcessingWait) {
         // waits for checks to be complete (upload should be complete already)
         await page.waitForXPath('//*[contains(text(),"Video upload complete")]', { hidden: true, timeout: 0 });
-        messageTransport.debug(`  >> ${videoJSON.title} - Video upload finished`);    
+        messageTransport.debug(`  >> ${videoJSON.title} - Video upload finished`);
     } else {
         await sleep(5000)
     }
@@ -261,7 +261,7 @@ async function uploadVideo(videoJSON: Video, messageTransport: MessageTransport)
 
     // Wait until title & description box pops up
     if (thumb) {
-        let thumbnailChooserXpath = xpathTextSelector('upload thumbnail')
+        let thumbnailChooserXpath = xpathTextSelector('Upload files')
         await page.waitForXPath(thumbnailChooserXpath)
         const thumbBtn = await page.$x(thumbnailChooserXpath)
         const [thumbChooser] = await Promise.all([
@@ -339,7 +339,7 @@ async function uploadVideo(videoJSON: Video, messageTransport: MessageTransport)
         } else {
             messageTransport.warn(`  >> ${videoJSON.title} - Failed setting playlist`);
         }
-        
+
     }
 
     if (!videoJSON.isNotForKid) {
@@ -404,7 +404,7 @@ async function uploadVideo(videoJSON: Video, messageTransport: MessageTransport)
         } else {
             messageTransport.warn(`  >> ${videoJSON.title} - Failed setting game title`);
         }
-        
+
     }
 
     const nextBtnXPath = "//*[normalize-space(text())='Next']/parent::*[not(@disabled)]"
